@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 1000px;
+                 height: 900px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "black"}, "id": "pa\u00eds", "label": "pa\u00eds", "shape": "dot", "size": 8}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "pensar", "label": "pensar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "comprar", "label": "comprar", "shape": "dot", "size": 5}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "hacer", "label": "hacer", "shape": "dot", "size": 5}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "traer", "label": "traer", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "padecer", "label": "padecer", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "representar", "label": "representar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "construir", "label": "construir", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "reconstruir", "label": "reconstruir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "producto", "label": "producto", "shape": "dot", "size": 11}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "estar", "label": "estar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "crear", "label": "crear", "shape": "dot", "size": 3}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "convertir", "label": "convertir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "disponer", "label": "disponer", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "devaluar", "label": "devaluar", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "generar", "label": "generar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "entrar", "label": "entrar", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "contar", "label": "contar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "exportar", "label": "exportar", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "salir", "label": "salir", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "mundo", "label": "mundo", "shape": "dot", "size": 8}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "per\u00fa", "label": "per\u00fa", "shape": "dot", "size": 5}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "cocina", "label": "cocina", "shape": "dot", "size": 4}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "expandir", "label": "expandir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "encontrar", "label": "encontrar", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "expandecir", "label": "expandecir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "vender", "label": "vender", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "abrir", "label": "abrir", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "invertir", "label": "invertir", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "visitar", "label": "visitar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "necesitar", "label": "necesitar", "shape": "dot", "size": 3}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "concepto", "label": "concepto", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "restaurante", "label": "restaurante", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "vivir", "label": "vivir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "codear", "label": "codear", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "indicar", "label": "indicar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "decidir", "label": "decidir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "desarrollar", "label": "desarrollar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "introducir", "label": "introducir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "imaginar", "label": "imaginar", "shape": "dot", "size": 2}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "elaborar", "label": "elaborar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "empezar", "label": "empezar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "definir", "label": "definir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "llamar", "label": "llamar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "conquistar", "label": "conquistar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "marca", "label": "marca", "shape": "dot", "size": 9}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "rechazar", "label": "rechazar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "preparar", "label": "preparar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "esperar", "label": "esperar", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "compita", "label": "compita", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "recibir", "label": "recibir", "shape": "dot", "size": 1}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "dar", "label": "dar", "shape": "dot", "size": 1}]);
+                  edges = new vis.DataSet([{"from": "pa\u00eds", "to": "pensar", "width": 1}, {"from": "pa\u00eds", "to": "comprar", "width": 1}, {"from": "pa\u00eds", "to": "hacer", "width": 1}, {"from": "pa\u00eds", "to": "traer", "width": 1}, {"from": "pa\u00eds", "to": "padecer", "width": 1}, {"from": "pa\u00eds", "to": "representar", "width": 1}, {"from": "pa\u00eds", "to": "construir", "width": 1}, {"from": "pa\u00eds", "to": "reconstruir", "width": 1}, {"from": "producto", "to": "estar", "width": 1}, {"from": "producto", "to": "comprar", "width": 1}, {"from": "producto", "to": "crear", "width": 1}, {"from": "producto", "to": "convertir", "width": 1}, {"from": "producto", "to": "disponer", "width": 1}, {"from": "producto", "to": "devaluar", "width": 1}, {"from": "producto", "to": "generar", "width": 1}, {"from": "producto", "to": "entrar", "width": 1}, {"from": "producto", "to": "contar", "width": 1}, {"from": "producto", "to": "exportar", "width": 1}, {"from": "producto", "to": "salir", "width": 1}, {"from": "comprar", "to": "mundo", "width": 1}, {"from": "comprar", "to": "per\u00fa", "width": 1}, {"from": "comprar", "to": "cocina", "width": 1}, {"from": "mundo", "to": "expandir", "width": 1}, {"from": "mundo", "to": "exportar", "width": 1}, {"from": "mundo", "to": "encontrar", "width": 1}, {"from": "mundo", "to": "expandecir", "width": 1}, {"from": "mundo", "to": "vender", "width": 1}, {"from": "mundo", "to": "salir", "width": 1}, {"from": "mundo", "to": "abrir", "width": 1}, {"from": "per\u00fa", "to": "invertir", "width": 1}, {"from": "per\u00fa", "to": "visitar", "width": 1}, {"from": "per\u00fa", "to": "hacer", "width": 1}, {"from": "per\u00fa", "to": "necesitar", "width": 1}, {"from": "crear", "to": "concepto", "width": 1}, {"from": "crear", "to": "restaurante", "width": 1}, {"from": "cocina", "to": "vivir", "width": 1}, {"from": "cocina", "to": "devaluar", "width": 1}, {"from": "cocina", "to": "hacer", "width": 1}, {"from": "concepto", "to": "codear", "width": 1}, {"from": "concepto", "to": "indicar", "width": 1}, {"from": "concepto", "to": "decidir", "width": 1}, {"from": "concepto", "to": "desarrollar", "width": 1}, {"from": "concepto", "to": "abrir", "width": 1}, {"from": "concepto", "to": "introducir", "width": 1}, {"from": "concepto", "to": "entrar", "width": 1}, {"from": "concepto", "to": "imaginar", "width": 1}, {"from": "concepto", "to": "elaborar", "width": 1}, {"from": "restaurante", "to": "invertir", "width": 1}, {"from": "restaurante", "to": "empezar", "width": 1}, {"from": "restaurante", "to": "definir", "width": 1}, {"from": "restaurante", "to": "llamar", "width": 1}, {"from": "restaurante", "to": "hacer", "width": 1}, {"from": "restaurante", "to": "conquistar", "width": 1}, {"from": "restaurante", "to": "necesitar", "width": 1}, {"from": "restaurante", "to": "imaginar", "width": 1}, {"from": "restaurante", "to": "encontrar", "width": 1}, {"from": "marca", "to": "rechazar", "width": 1}, {"from": "marca", "to": "necesitar", "width": 1}, {"from": "marca", "to": "preparar", "width": 1}, {"from": "marca", "to": "esperar", "width": 1}, {"from": "marca", "to": "compita", "width": 1}, {"from": "marca", "to": "hacer", "width": 1}, {"from": "marca", "to": "construir", "width": 1}, {"from": "marca", "to": "recibir", "width": 1}, {"from": "marca", "to": "dar", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
